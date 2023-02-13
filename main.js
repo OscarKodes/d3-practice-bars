@@ -13,14 +13,15 @@ d3.csv('./film_data.csv', d3.autoType)
 
     console.log(data)
 
-    let topFilms = data.sort((a, b) => b.lifetime_gross - a.lifetime_gross).slice(0, 5);
+    let topFilms = data.sort((a, b) => b.lifetime_gross - a.lifetime_gross).slice(0, 6);
     topFilms = topFilms.map(film => {
 
         return {
             "lifetime_gross": film.lifetime_gross,
-            "title": film.title.slice(0, 22)
+            "title": film.title.slice(0, 16)
         }
-    })
+    }).slice(1)
+
 
     console.log(topFilms)
 
@@ -61,10 +62,10 @@ d3.csv('./film_data.csv', d3.autoType)
         .data(topFilms)
         .join("rect")
         .attr("class", "bar")
-        .attr("height", d => yScale(d.lifetime_gross))
+        .attr("height", d => height - yScale(d.lifetime_gross) - margin)
         .attr("width", xScale.bandwidth())
         .attr("x", d => xScale(d.title))
-        .attr("y", d => height - margin - yScale(d.lifetime_gross))
+        .attr("y", d => yScale(d.lifetime_gross))
         .attr("fill", pastel1Colors)
         .attr("stroke", "black");
 
